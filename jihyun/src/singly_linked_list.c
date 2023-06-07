@@ -76,9 +76,9 @@ void remove_at(SinglyLinkedList* s, int index)
 	assert(index >= 0 && index < s->len);
 	Node* prev_node = get(s, index - 1);
 	Node* removal_node;
-	if (prev_node == NULL)
-	{ //prev_node == NULL
-		removal_node = s->head; //prev_no됨
+	if (prev_node == NULL) // or index == 0
+	{
+		removal_node = s->head;
 		s->head = removal_node->next;
 	}
 	else
@@ -98,17 +98,29 @@ void drop_node(Node* p_node)
 	free(p_node); // question - free를 먼저하게되면 p_node의 next에 접근불가하므로 먼저 이동해준다?
 }
 
+void drop_node2(Node* p_node)
+{
+	if (p_node == NULL) return;
+	Node* next_node = p_node->next;
+	free(p_node);
+	drop_node(next_node);
+}
+
 void drop(SinglyLinkedList* s) //clear list
 {
 	drop_node(s->head);
 }
-void print_node(Node* p_node, int index){
+
+void print_node(Node* p_node, int index)
+{
 	if (p_node == NULL) return;
 
 	printf("[%d]: %d\n", index, p_node->val);
-	print_node(p_node->next,index+1 );
+	print_node(p_node->next, index + 1);
 }
-void print_all_nodes(SinglyLinkedList* s){
+
+void print_all_nodes(SinglyLinkedList* s)
+{
 	print_node(s->head, 0);
 }
 
